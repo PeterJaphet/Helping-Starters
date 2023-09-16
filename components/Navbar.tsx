@@ -25,7 +25,7 @@ const Navbar = () => {
             className="outline-none overflow-hidden h-full p-2"
           />
         </form>
-        <span className=" bg-primary rounded-full p-2">
+        <span className=" bg-primary rounded-full p-2 cursor-pointer">
           <Image src={"/search.svg"} height={20} width={20} alt="" />
         </span>
       </div>

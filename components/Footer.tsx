@@ -17,9 +17,9 @@ const Footer = () => {
           Helping starters is the world's leading community for creatives to share, grow, and get hired.
           </p>
         </div>
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between max-sm:flex-col">
             <p className="font-normal text-sm text-footer">&copy; 2023 Helping Starters. All Rights Reserved!</p>
-            <p className="font-normal text-sm text-footer">{'10,023'} Projects submitted!</p>
+            <p className="font-normal text-sm text-footer"><span className="text-black font-semibold">10,023</span> Projects submitted!</p>
         </div>
       </div>
     </footer>
