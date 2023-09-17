@@ -13,14 +13,24 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
   ],
-  // jwt: {
-  //     encode: ({secret, token })=>{
+  jwt: {
+    encode: ({ secret, token }) => {
+      const encodedToken = jsonwebtoken.sign(
+        {
+          ...token,
+          iss: "grafbase",
+          exp: Math.floor(Date.now() / 1000) + 60 * 60,
+        },
+        secret
+      );
 
-  //     },
-  //     decode: async ({secret, token }) =>{
-
-  //     }
-  // },
+      return encodedToken;
+    },
+    decode: async ({ secret, token }) => {
+      const decodedToken = jsonwebtoken.verify(token!, secret);
+      return decodedToken as JWT;
+    },
+  },
   theme: {
     colorScheme: "light",
     logo: "/logo.png",
@@ -31,7 +41,6 @@ export const authOptions: NextAuthOptions = {
     },
     async signIn({ user }: { user: AdapterUser | User }) {
       try {
-        
         return true;
       } catch (error: any) {
         console.log(error);
@@ -41,9 +50,7 @@ export const authOptions: NextAuthOptions = {
   },
 };
 
-
 export async function getCurrentUser() {
-    const session = await getServerSession(authOptions)  as SessionInterface;
-    return session;
-   
+  const session = (await getServerSession(authOptions)) as SessionInterface;
+  return session;
 }

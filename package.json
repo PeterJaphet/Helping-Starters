@@ -18,6 +18,7 @@
     "cloudinary": "^1.40.0",
     "graphql-request": "^6.1.0",
     "jsonwebtoken": "^9.0.2",
+    "module": "^1.2.5",
     "next": "13.4.19",
     "next-auth": "^4.23.1",
     "postcss": "8.4.29",
