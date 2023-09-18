@@ -2,7 +2,8 @@ import Link from "next/link";
 import Image from "next/image";
 const Footer = () => {
   return (
-    <footer className="flexStart footer">
+    <footer className="footer">
+      <div className="container flexStart">
       <div className="flex flex-col gap-12 w-full">
         <div className="flex items-start flex-col">
           <Link href="/">
@@ -21,6 +22,7 @@ const Footer = () => {
             <p className="font-normal text-sm text-footer">&copy; 2023 Helping Starters. All Rights Reserved!</p>
             <p className="font-normal text-sm text-footer"><span className="text-black font-semibold">10,023</span> Projects submitted!</p>
         </div>
+      </div>
       </div>
     </footer>
   );
