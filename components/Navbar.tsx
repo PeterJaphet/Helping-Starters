@@ -10,7 +10,7 @@ const Navbar = async () => {
   const session = await getCurrentUser();
 
   return (
-    <nav className="navbar">
+    <nav className="navbar transition ease-in-out duration-1000">
       <div className="container flexBetween">
       <div className="flexStart gap-10">
         <Link href="/">
@@ -22,7 +22,7 @@ const Navbar = async () => {
           />
         </Link>
       </div>
-      <div className="shadow-md rounded-3xl sm:flex p-2 sm:min-w-[500px] hidden">
+      <div className=" border-primary transition ease-in-out duration-1000 hover:border shadow-custom rounded-3xl sm:flex p-2 sm:min-w-[480px] hidden">
         <form className="flexStart align-middle w-full">
           <input
             type="text"

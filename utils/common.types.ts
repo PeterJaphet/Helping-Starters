@@ -9,7 +9,7 @@ export interface SessionInterface extends Session {
     };
   }
   export interface UserProfile {
-    id: string;
+    // id: string; !null 
     name: string;
     email: string;
     description: string | null;
@@ -27,6 +27,22 @@ export interface SessionInterface extends Session {
     // };
 }
 
+export interface ProjectInterface {
+  title: string;
+  description: string;
+  image: string;
+  liveSiteUrl: string;
+  githubUrl: string;
+  category: string;
+  id: string;
+  createdBy: {
+    name: string;
+    email: string;
+    avatarUrl: string;
+    id: string;
+  };
+}
+
 export type FormState = {
   title: string;
   description: string;
@@ -36,7 +52,7 @@ export type FormState = {
   category: string;
 };
 
-export interface ProjectForm {
+export interface ProjectFormType {
   title: string;
   description: string;
   image: string;

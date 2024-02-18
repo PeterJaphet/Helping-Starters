@@ -5,7 +5,8 @@ import GoogleProvider from "next-auth/providers/google";
 import jsonwebtoken from "jsonwebtoken";
 import { JWT } from "next-auth/jwt";
 import { SessionInterface, UserProfile } from "@/utils/common.types";
-import { createUser, getUser } from "./actions";
+import connectDB from "@/config/db";
+import User, { add, find } from "@/models/user";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -38,35 +39,43 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     async session({ session }) {
+      await connectDB();
       const email = session?.user?.email as string;
       try {
-        const data = await getUser(email) as {user?:UserProfile}
+        const User = await find(JSON.parse(JSON.stringify({ email: email })));
 
-        const newSession = {
-          ...session, user:{...session.user,...data.user}
-        }
-        console.log(newSession,'hey  '+ data?.user, session.user)
+        const newSession = JSON.parse(
+          JSON.stringify({
+            ...session,
+            user: { ...session.user, ...User },
+          })
+        );
+
+        console.log(newSession);
         return newSession;
-        
       } catch (error) {
-        console.log('Error retrieving user data', error)
+        console.log("Error retrieving user data", error);
         return session;
       }
-      
     },
     async signIn({ user }: { user: AdapterUser | User }) {
       try {
-        const User = (await getUser(user?.email as string)) as {
-          user?: UserProfile;
-        };
+        await connectDB();
+        const User = await find(
+          JSON.parse(JSON.stringify({ email: user.email }))
+        );
 
-        console.log(User.user + 'creating...')
+        console.log(User + "creating...");
 
         if (!User) {
-          await createUser(
-            user.name as string,
-            user.email as string,
-            user.image as string
+          await add(
+            JSON.parse(
+              JSON.stringify({
+                name: user.name!,
+                email: user.email!,
+                avatarUrl: user.image,
+              })
+            )
           );
         }
         return true;
@@ -79,6 +88,6 @@ export const authOptions: NextAuthOptions = {
 };
 
 export async function getCurrentUser() {
-  const session = await getServerSession(authOptions) as SessionInterface;
+  const session = (await getServerSession(authOptions)) as SessionInterface;
   return session;
 }

@@ -6,8 +6,9 @@ import Button from "./Button";
 import { categoryFilters } from "@/utils/constants";
 import CustomMenu from "./CustomMenu";
 import { useState, ChangeEvent } from "react";
-import { createNewProject, fetchToken } from "@/lib/actions";
+import {  fetchToken } from "@/lib/actions";
 import { useRouter } from "next/navigation";
+import { createNewProject } from "@/models/project";
 
 type Props = {
   type: string;
@@ -34,10 +35,18 @@ const ProjectForm = ({ type, session }: Props) => {
       const { token } = await fetchToken();
 
       if (type === "create") {
-        console.log(session?.user);
-        await createNewProject(form, session?.user?.id, token);
-
-        router.push("/");
+        const res = await fetch('api/project/new', {
+          method: 'POST',
+          body: JSON.stringify({
+            form,
+            creatorId:session?.user?._doc?._id,
+            token
+          })
+        })
+        //await createNewProject(form, session?.user?._doc?._id, token);
+        if(res.ok){
+          router.push("/");
+        }
       }
     } catch (error) {
       console.error(error);
